@@ -16,7 +16,14 @@
         "type": "mustaches",
         "images":[
           {
-            "url": "mustache1.svg"
+            "url": "mustache1.svg",
+            "image_dimensions": {
+              "width": 300,
+              "height": 75
+            },
+            "image_position": {
+              "top": 180
+            }
           },
           {
             "url": "mustache2.svg"

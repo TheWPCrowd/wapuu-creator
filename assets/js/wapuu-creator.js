@@ -5,7 +5,7 @@ var wapuu_creator = wapuu_creator || {};
 
     wapuu_creator.app = ( function( creator ) {
 
-        fabric.Canvas.prototype.getItemByName = function(name) {
+        fabric.Canvas.prototype.getItemByName = function( name ) {
             var object = null,
                 objects = this.getObjects();
 
@@ -34,7 +34,16 @@ var wapuu_creator = wapuu_creator || {};
 
                 $('body').on('click', '.asset-library img', function(e){
                     e.preventDefault();
-                    creator.insertImage( $(this).attr('src'), $(this).data('type'), false, false );
+
+                    var dimensions = false;
+                    if( creator.assets[$(this).data('assetkey')].images[$(this).data('imagekey')].image_dimensions ) {
+                        dimensions = creator.assets[$(this).data('assetkey')].images[$(this).data('imagekey')].image_dimensions;
+                    }
+                    var position = false;
+                    if( creator.assets[$(this).data('assetkey')].images[$(this).data('imagekey')].image_position ) {
+                        position = creator.assets[$(this).data('assetkey')].images[$(this).data('imagekey')].image_position;
+                    }
+                    creator.insertImage( $(this).attr('src'), $(this).data('type'), dimensions, position );
                 });
 
                 /** Create Fabricjs Canvas **/
@@ -78,20 +87,30 @@ var wapuu_creator = wapuu_creator || {};
          * @param type
          * @param key
          */
-        creator.load_assets = function( type, key ) {
-            if( !creator.assets || !creator.assets[key] ) {
+        creator.load_assets = function( type, assets_key ) {
+            if( !creator.assets || !creator.assets[assets_key] ) {
                 return false;
             }
 
-            var assets = creator.assets[key];
+            var assets = creator.assets[assets_key];
             if( type !== assets.type ) {
                 return false;
             }
             $('.asset-library').empty();
 
             $(assets.images).each(function(key, value){
-                $('.asset-library').append('<img src="' + wapuuCreatorObj.plugin_url + '/wapuu-assets/' + assets.type + '/' + value.url + '" data-type="' + assets.type + '" />');
+                $('.asset-library').append('<img src="' + wapuuCreatorObj.plugin_url + '/wapuu-assets/' + assets.type + '/' + value.url + '" data-type="' + assets.type + '" data-assetkey="' + assets_key + '" data-imagekey="' + key + '" />');
             });
+        };
+
+        /**
+         * Remove Image by type
+         * @param image_type
+         */
+        creator.removeImage = function( image_type ) {
+            if( creator.canvas.getItemByName( image_type ) ) {
+                creator.canvas.getItemByName( image_type ).remove();
+            }
         };
 
         /**
@@ -105,12 +124,9 @@ var wapuu_creator = wapuu_creator || {};
         creator.insertImage = function( image_url, image_type, image_dimensions, image_position ) {
 
             // First remove
-            if( creator.canvas.getItemByName( image_type ) ) {
-                creator.canvas.getItemByName( image_type ).remove();
-            }
+            creator.removeImage( image_type );
 
             image_dimensions = image_dimensions || creator.getDefaultDimensions( image_type );
-
             image_position = image_position || creator.getDefaultPos( image_type );
 
             fabric.Image.fromURL( image_url, function(oImg) {
