@@ -25,6 +25,16 @@ var wapuu_creator = wapuu_creator || {};
                 creator.canvas.add(oImg);
                 oImg.center();
             });
+
+            /** TESTING ADDING A HAT **/
+            fabric.Image.fromURL( wapuuCreatorObj.plugin_url + '/wapuu-assets/hats/gradcap.svg', function(oImg) {
+                oImg.width = 400;
+                oImg.height = 110;
+                oImg.set( 'selectable', false );
+                oImg.top = 70;
+                creator.canvas.add(oImg);
+                oImg.centerH();
+            });
         };
 
         creator.downloadJPG = function() {
