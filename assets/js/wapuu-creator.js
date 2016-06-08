@@ -17,6 +17,11 @@ var wapuu_creator = wapuu_creator || {};
                     creator.load_assets( type, key );
                 });
 
+                $('body').on('click', '.asset-library img', function(e){
+                    e.preventDefault();
+                    creator.insertImage( $(this).attr('src'), $(this).data('type'), false, false );
+                });
+
                 /** Create Fabricjs Canvas **/
                 creator.canvas = new fabric.Canvas($('canvas.wapuu-creator').attr('id'));
                 creator.canvas.setDimensions({
@@ -49,9 +54,6 @@ var wapuu_creator = wapuu_creator || {};
                 creator.canvas.add(oImg);
                 oImg.center();
             });
-
-            /** TESTING ADDING A HAT **/
-            creator.insertImage( wapuuCreatorObj.plugin_url + '/wapuu-assets/hats/gradcap.svg', 'hat', {width:400,height:110}, false );
         };
 
         /**
@@ -85,9 +87,7 @@ var wapuu_creator = wapuu_creator || {};
 
         creator.insertImage = function( image_url, image_type, image_dimensions, image_position ) {
 
-            image_dimensions = image_dimensions || {};
-            image_dimensions.width = image_dimensions.width || 400;
-            image_dimensions.height = image_dimensions.height || 400;
+            image_dimensions = image_dimensions || creator.getDefaultDimensions( image_type );
 
             image_position = image_position || creator.getDefaultPos( image_type );
 
@@ -98,14 +98,37 @@ var wapuu_creator = wapuu_creator || {};
                 oImg.top = image_position.top;
                 creator.canvas.add(oImg);
                 oImg.centerH();
+
+                if( image_type == 'mustaches' ) {
+                    oImg.setLeft( oImg.left - 60 );
+                    var curAngle = oImg.getAngle();
+                    oImg.setAngle(curAngle-10);
+                    creator.canvas.renderAll();
+                }
             });
         };
 
         creator.getDefaultPos = function( image_type ) {
-            var dimensions = {};
+            var position = {};
             switch( image_type ){
-                case 'hat':
-                    dimensions = { top: 70 }
+                case 'hats':
+                    position = { top: 70 }
+                    break;
+                case 'mustaches':
+                    position = { top: 200 }
+                    break;
+            }
+            return position;
+        };
+
+        creator.getDefaultDimensions = function( image_type ) {
+            var dimensions = {};
+            switch( image_type ) {
+                case 'hats':
+                    dimensions = { width: 400, height: 110 }
+                    break;
+                case 'mustaches':
+                    dimensions = { width: 300, height: 50 }
                     break;
             }
             return dimensions;
