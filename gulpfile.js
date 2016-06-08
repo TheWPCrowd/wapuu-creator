@@ -10,7 +10,7 @@ var jsFileList = [
 ];
 
 gulp.task( 'sass', function() {
-    gulp.src('./assets/scss/styles.scss')
+    gulp.src('./assets/scss/wapuu-creator.scss')
         .pipe(sourcemaps.init())
         .pipe(sass({
                 outputStyle: 'compressed'
