@@ -1,0 +1,33 @@
+{
+  "assets": [
+      {
+        "type": "hats",
+        "images":[
+          {
+            "url": "gradcap.svg",
+            "image_dimensions": {
+              "width": 400,
+              "height": 110
+            }
+          }
+        ]
+      },
+      {
+        "type": "mustaches",
+        "images":[
+          {
+            "url": "mustache1.svg"
+          },
+          {
+            "url": "mustache2.svg"
+          },
+          {
+            "url": "mustache3.svg"
+          },
+          {
+            "url": "mustache4.svg"
+          }
+        ]
+      }
+  ]
+}
