@@ -5,6 +5,21 @@ var wapuu_creator = wapuu_creator || {};
 
     wapuu_creator.app = ( function( creator ) {
 
+        fabric.Canvas.prototype.getItemByName = function(name) {
+            var object = null,
+                objects = this.getObjects();
+
+            for (var i = 0, len = this.size(); i < len; i++) {
+                if (objects[i].name && objects[i].name === name) {
+                    object = objects[i];
+                    break;
+                }
+            }
+
+            return object;
+        };
+
+
         $(document).ready(function(){
             if( $('canvas.wapuu-creator').length > 0 ) {
                 console.log('wapuu creator init');
@@ -32,6 +47,7 @@ var wapuu_creator = wapuu_creator || {};
                 /** Insert Base Wapuu **/
                 creator.insertBaseWapuu();
 
+
                 /** Get Assets **/
                 $.get( wapuuCreatorObj.plugin_url + '/wapuu-assets/asset_db.json', function(res){
                     creator.assets = res.assets;
@@ -48,6 +64,7 @@ var wapuu_creator = wapuu_creator || {};
          */
         creator.insertBaseWapuu = function() {
             fabric.Image.fromURL( wapuuCreatorObj.plugin_url + '/wapuu-assets/base-wapuu.svg', function(oImg) {
+                oImg.name = 'base-wapuu',
                 oImg.width = 500;
                 oImg.height = 500;
                 oImg.set( 'selectable', false );
@@ -87,11 +104,17 @@ var wapuu_creator = wapuu_creator || {};
 
         creator.insertImage = function( image_url, image_type, image_dimensions, image_position ) {
 
+            // First remove
+            if( creator.canvas.getItemByName( image_type ) ) {
+                creator.canvas.getItemByName( image_type ).remove();
+            }
+
             image_dimensions = image_dimensions || creator.getDefaultDimensions( image_type );
 
             image_position = image_position || creator.getDefaultPos( image_type );
 
             fabric.Image.fromURL( image_url, function(oImg) {
+                oImg.name = image_type;
                 oImg.width = image_dimensions.width;
                 oImg.height = image_dimensions.height;
                 oImg.set( 'selectable', false );
@@ -112,10 +135,10 @@ var wapuu_creator = wapuu_creator || {};
             var position = {};
             switch( image_type ){
                 case 'hats':
-                    position = { top: 70 }
+                    position = { top: 70 };
                     break;
                 case 'mustaches':
-                    position = { top: 200 }
+                    position = { top: 200 };
                     break;
             }
             return position;
@@ -125,10 +148,10 @@ var wapuu_creator = wapuu_creator || {};
             var dimensions = {};
             switch( image_type ) {
                 case 'hats':
-                    dimensions = { width: 400, height: 110 }
+                    dimensions = { width: 400, height: 110 };
                     break;
                 case 'mustaches':
-                    dimensions = { width: 300, height: 50 }
+                    dimensions = { width: 300, height: 50 };
                     break;
             }
             return dimensions;

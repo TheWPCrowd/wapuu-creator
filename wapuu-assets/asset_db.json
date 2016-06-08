@@ -22,7 +22,14 @@
             "url": "mustache2.svg"
           },
           {
-            "url": "mustache3.svg"
+            "url": "mustache3.svg",
+            "image_dimensions" : {
+              "width": 300,
+              "height": 50
+            },
+            "image_position" : {
+              "top": 200
+            }
           },
           {
             "url": "mustache4.svg"
