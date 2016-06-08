@@ -46,6 +46,25 @@ var wapuu_creator = wapuu_creator || {};
                     creator.insertImage( $(this).attr('src'), $(this).data('type'), dimensions, position );
                 });
 
+                $('body').on('click', 'a.renderIMG', function(e){
+                    e.preventDefault();
+                    $(this).hide();
+                    var img = creator.canvas.toDataURL({
+                        format: 'png',
+                        quality: 0.8
+                    });
+                    $('.canvas-container, .asset-library, .asset-types ').hide();
+                    $('#wapuu-creator-wrapper').append('<div id="wapuu-render"><img src="' + img + '" /><br/><em>to download: right-click and save image</em> <a href="#" class="backToEdit">continue editing</a></div>');
+
+                });
+
+                $('body').on('click', 'a.backToEdit', function(e){
+                    e.preventDefault();
+                    $('#wapuu-render').hide();
+                    $('.canvas-container, .asset-library, .asset-types, a.renderIMG').show();
+                    $('#wapuu-render').remove();
+                });
+
                 /** Create Fabricjs Canvas **/
                 creator.canvas = new fabric.Canvas($('canvas.wapuu-creator').attr('id'));
                 creator.canvas.setDimensions({
