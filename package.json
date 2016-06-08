@@ -1,0 +1,26 @@
+{
+  "name": "wapuu-creator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheWPCrowd/wapuu-creator.git"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/TheWPCrowd/wapuu-creator/issues"
+  },
+  "homepage": "https://github.com/TheWPCrowd/wapuu-creator#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-sass": "^2.3.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-watch": "^4.3.6"
+  }
+}
